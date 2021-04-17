@@ -142,8 +142,12 @@ return [
         'Error'                 => 'Erro',
         'created'               => 'dados inseridos com sucesso.',
         'not_created'           => 'ocorreu um erro ao tentar incluir. Tente novamente.',
+        'data_created'          => 'dados inseridos',
+        'imported'              => 'dados importados com sucesso.',
+        'not_imported'          => 'ocorreu um erro ao tentar importar os dados. Tente novamente.',
         'updated'               => 'dados alterados com sucesso.',
         'not_updated'           => 'não foi possível alterar os dados. Tente novamente.',
+        'data_updated'          => 'dados atualizados',
         'deleted'               => 'dados removidos com sucesso.',
         'not_deleted'           => 'não foi possível remover este dados. Tente novamente.',
         '401_error'             => 'não autorizado',
@@ -209,6 +213,7 @@ return [
         'year'      => 'ano',
         'description' => 'descrição',
         'password_confirmation' => 'confirmação da senha',
+        'file'          =>      'arquivo'
     ],
 
 ];

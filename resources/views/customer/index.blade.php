@@ -7,6 +7,7 @@
     <div class="mb-3">
         <a href="{{route('customers.index')}}" class="btn btn-dark">@lang('platform.generic.message.index')</a>
         <a href="{{route('customers.create')}}" class="btn btn-primary">@lang('platform.customer.new')</a>
+        <a href="{{route('customers.import')}}" class="btn btn-info">@lang('platform.customer.import')</a>
     </div>
     <h3>@lang('platform.customer.name')</h3>
     <div class="mb-3">

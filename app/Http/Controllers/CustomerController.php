@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerRequest;
+use App\Http\Requests\ImportRequest;
+use App\Import\CustomerImport;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
     protected $customer;
+    protected $customer_import;
 
-    public function __construct(Customer $customer)
+    public function __construct(Customer $customer,
+                                CustomerImport $customer_import )
     {
         $this->customer = $customer;
+        $this->customer_import = $customer_import;
+
     }
 
     public function index()
@@ -97,6 +103,46 @@ class CustomerController extends Controller
                 'alert-type' => 'danger'
             );
             return back()->with($notification);
+        }
+    }
+
+    public function import()
+    {
+        return view('customer.import');
+    }
+
+    public function storeImport(ImportRequest $request)
+    {
+
+        $notification = $this->customer_import->allData($request);
+            if($notification['message'] == "worksheet_imported"){
+                $notification = array(
+                    'title'=> trans('validation.generic.Success'),
+                    'message'=> trans('validation.generic.imported')." ".
+                                trans('validation.generic.data_created')." : ".$notification['created'].". ".
+                                trans('validation.generic.data_updated')." : ".$notification['updated'],
+                    'alert-type' => 'success'
+                );
+            }
+            if($notification['message']  == "worksheet_invalid"){
+                $notification = array(
+                    'title'=> trans('validation.generic.Error'),
+                    'message'=> trans('platform.customer.message.import'),
+                    'alert-type' => 'danger'
+                );
+                return back()->withInput()->with($notification);
+            }
+            return redirect()->route('customers.index')->with($notification);
+        try{
+        }
+        catch(\Exception $e)
+        {
+            $notification = array(
+                'title'=> trans('validation.generic.Error'),
+                'message'=> trans('validation.generic.not_imported').': '.$e->getMessage(),
+                'alert-type' => 'danger'
+            );
+            return back()->with($notification)->withInput();
         }
     }
 }
