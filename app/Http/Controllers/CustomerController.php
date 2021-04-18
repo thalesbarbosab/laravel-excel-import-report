@@ -117,8 +117,8 @@ class CustomerController extends Controller
 
     public function storeImport(ImportRequest $request)
     {
-
-        $notification = $this->customer_import->allData($request);
+        try{
+            $notification = $this->customer_import->allData($request);
             if($notification['message'] == "worksheet_imported"){
                 $notification = array(
                     'title'=> trans('validation.generic.Success'),
@@ -137,7 +137,7 @@ class CustomerController extends Controller
                 return back()->withInput()->with($notification);
             }
             return redirect()->route('customers.index')->with($notification);
-        try{
+
         }
         catch(\Exception $e)
         {
