@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('customers/report/{customer?}','CustomerController@report')->name('customers.report');
 Route::get('customers/import','CustomerController@import')->name('customers.import');
 Route::post('customers/store-import','CustomerController@storeImport')->name('customers.storeImport');
 Route::resource('customers','CustomerController');

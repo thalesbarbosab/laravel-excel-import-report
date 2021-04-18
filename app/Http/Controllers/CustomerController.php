@@ -6,18 +6,22 @@ use App\Http\Requests\CustomerRequest;
 use App\Http\Requests\ImportRequest;
 use App\Import\CustomerImport;
 use App\Models\Customer;
+use App\Report\CustomerReport;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
     protected $customer;
     protected $customer_import;
+    protected $customer_report;
 
     public function __construct(Customer $customer,
-                                CustomerImport $customer_import )
+                                CustomerImport $customer_import,
+                                CustomerReport $customer_report )
     {
         $this->customer = $customer;
         $this->customer_import = $customer_import;
+        $this->customer_report = $customer_report;
 
     }
 
@@ -144,5 +148,25 @@ class CustomerController extends Controller
             );
             return back()->with($notification)->withInput();
         }
+    }
+
+    public function report($customer_id = null)
+    {
+        if($customer_id==null){
+            $customers = $this->customer->all();
+        }else{
+            $customers = $this->customer->where('id',$customer_id)->get();
+        }
+        try{
+            $notification = $this->customer_report->list($customers);
+        }
+        catch(\Exception $e){
+            $notification = array(
+                'title'=> trans('platform.generic.Error'),
+                'message'=> trans('platform.report.message.generated_error').': '.$e->getMessage(),
+                'alert-type' => 'danger'
+            );
+        }
+        return back()->with($notification);
     }
 }
