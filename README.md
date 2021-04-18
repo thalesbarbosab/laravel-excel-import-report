@@ -1,22 +1,14 @@
-# laravel-localization
-Como usar o recurso de tradução para sua aplicação e como aplicar também nas mensagens de retorno nos controladores e validações.
-Vemos também boas práticas no desenvolvimento.
+# laravel-excel-import-report
+Como aplicar a importação e extração de dados em sua aplicação com excel usando pacote phpspreadsheet
 
+PhpSpreadSheet Documentação
+https://phpspreadsheet.readthedocs.io/en/latest/
 
-Laravel Localization
-https://laravel.com/docs/8.x/localization
-
-Jquery v3.4.1
-https://jquery.com/
-
-ToastJs
-https://ireade.github.io/Toast.js/
-
-Toastr
-https://codeseven.github.io/toastr/
+PhpSpreadSheet GitHub
+https://github.com/PHPOffice/PhpSpreadsheet
 
 Bootstrap 5
 https://getbootstrap.com/docs/5.0/getting-started/introduction/
 
 4Devs - Gerador de cpf fake 
-https://www.4devs.com.br/gerador_de_cpf
+https://www.4devs.com.br/gerador_de_pessoas
