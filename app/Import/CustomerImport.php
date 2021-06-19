@@ -4,6 +4,7 @@ namespace App\Import;
 
 use App\Models\Customer;
 use App\Tools\Sanitize;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -59,10 +60,7 @@ class CustomerImport
                 $line++;
             //not exists 3 columns in the worksheet
             }else{
-                $notification = [
-                    'message'=> 'worksheet_invalid'
-                ];
-                return $notification;
+                throw new Exception(trans('platform.customer.message.import'));
             }
         }
         //returns imported worksheet notification

@@ -8,6 +8,7 @@ use App\Import\CustomerImport;
 use App\Models\Customer;
 use App\Report\CustomerReport;
 use Illuminate\Http\Request;
+use Exception;
 
 class CustomerController extends Controller
 {
@@ -60,8 +61,31 @@ class CustomerController extends Controller
 
     public function edit($id)
     {
-        $customer =  $this->customer->findOrFail($id);
-        return view('customer.edit',['customer'=>$customer]);
+        //first method
+            /*
+            $customer =  $this->customer->where('id',$id)->firstOrFail();
+            return view('customer.edit',['customer'=>$customer]);
+            */
+        //second method
+            /*
+            $customer =  $this->customer->findOrFail($id);
+            return view('customer.edit',['customer'=>$customer]);
+            */
+        //third method
+            try{
+                $customer =  $this->customer->find($id);
+                if(empty($customer)){
+                    throw new Exception('not found result for param like "'.$id.'"');
+                }
+                return view('customer.edit',['customer'=>$customer]);
+            }catch(Exception $e){
+                $notification = array(
+                    'title'=> trans('validation.generic.Error'),
+                    'message'=> $e->getMessage(),
+                    'alert-type' => 'danger'
+                );
+                return back()->with($notification)->withInput();
+            }
     }
 
     public function update(CustomerRequest $request, $id)
@@ -119,6 +143,14 @@ class CustomerController extends Controller
     {
         try{
             $notification = $this->customer_import->allData($request);
+            $notification = array(
+                'title'=> trans('validation.generic.Success'),
+                'message'=> trans('validation.generic.imported')." ".
+                            trans('validation.generic.data_created')." : ".$notification['created'].". ".
+                            trans('validation.generic.data_updated')." : ".$notification['updated'],
+                'alert-type' => 'success'
+            );
+            /*
             if($notification['message'] == "worksheet_imported"){
                 $notification = array(
                     'title'=> trans('validation.generic.Success'),
@@ -128,6 +160,8 @@ class CustomerController extends Controller
                     'alert-type' => 'success'
                 );
             }
+            */
+            /*
             if($notification['message']  == "worksheet_invalid"){
                 $notification = array(
                     'title'=> trans('validation.generic.Error'),
@@ -136,6 +170,7 @@ class CustomerController extends Controller
                 );
                 return back()->withInput()->with($notification);
             }
+            */
             return redirect()->route('customers.index')->with($notification);
 
         }
